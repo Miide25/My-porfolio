@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <main>
+        <div class="hero-content">
+            <div class="hero-text animate-fadeIn">
+                <p class="intro">Hi, I'm Ronke Akindele.</p>
+                <h1 class="title">
+                    <span class="typewriter">
+                        <span class="typewriter-text orange"></span>
+                        <span class="typewriter-text black"></span>
+                        <span class="cursor">|</span>
+                    </span>
+                </h1>
+                <p class="description">
+                    Web designer and developer from Lagos, Nigeria. I create websites to help businesses do better online.
+                    Specializing in responsive design, user experience, and modern web technologies.
+                </p>
+                <button class="hire-btn">Hire Me</button>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/haderonke.hakindeyle?mibextid=LQQJ4d"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/theronkeakindele?igsh=MW02NzZ5Zmt3Zm0ycg%3D%3D&utm_source=qr
+                    "><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/aderonke-akindele-174a2b179 "><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/aderonkeakindele"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="hero-image animate-slideIn">
+                <img src="IMG-20250409-WA0004.jpg" alt="Professional Portrait">
+            </div>
+        </div>
+    </main>
+
+    <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Navigation active state
+    const navLinks = document.querySelectorAll('.desktop-nav a[data-nav]');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Remove active class from all links
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+        });
+    });
+    
+    // Typewriter effect
+    const phrases = [
+        { first: "WEB", second: "DESIGNER" },
+        { first: "FRONTEND", second: "DEVELOPER" },
+        { first: "RESPONSIVE", second: "DESIGNER" }
+    ];
+    
+    let currentPhraseIndex = 0;
+    let currentCharIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 150;
+    
+    const orangeText = document.querySelector('.typewriter-text.orange');
+    const blackText = document.querySelector('.typewriter-text.black');
+    
+    function typeWriter() {
+        const currentPhrase = phrases[currentPhraseIndex];
+        const fullPhrase = currentPhrase.first + " " + currentPhrase.second;
+        
+        // If deleting
+        if (isDeleting) {
+            // Get substring with one less character
+            if (currentCharIndex > currentPhrase.first.length) {
+                // We're deleting from the second part
+                const remainingSecondPart = currentPhrase.second.substring(0, currentCharIndex - currentPhrase.first.length - 1);
+                blackText.textContent = remainingSecondPart;
+            } else {
+                // We're deleting from the first part
+                const remainingFirstPart = currentPhrase.first.substring(0, currentCharIndex);
+                orangeText.textContent = remainingFirstPart;
+                blackText.textContent = "";
+            }
+            
+            currentCharIndex--;
+            typingSpeed = 75; // Faster when deleting
+            
+            // If deleted everything, move to next phrase
+            if (currentCharIndex === 0) {
+                isDeleting = false;
+                currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+                typingSpeed = 150; // Reset typing speed
+            }
+        } 
+        // If typing
+        else {
+            currentCharIndex++;
+            
+            if (currentCharIndex <= currentPhrase.first.length) {
+                // Typing the first part (orange)
+                orangeText.textContent = currentPhrase.first.substring(0, currentCharIndex);
+                blackText.textContent = "";
+            } else {
+                // Typing the second part (black)
+                orangeText.textContent = currentPhrase.first;
+                const secondPartIndex = currentCharIndex - currentPhrase.first.length - 1;
+                blackText.textContent = currentPhrase.second.substring(0, secondPartIndex);
+            }
+            
+            // If finished typing the phrase
+            if (currentCharIndex === fullPhrase.length) {
+                // Pause at the end
+                typingSpeed = 1500;
+                isDeleting = true;
+            }
+        }
+        
+        setTimeout(typeWriter, typingSpeed);
+    }
+    
+    // Start the typewriter effect
+    typeWriter();
+    
+    // Add hover effect to hire button
+    const hireBtn = document.querySelector('.hire-btn');
+    hireBtn.addEventListener('mouseover', () => {
+        hireBtn.style.transform = 'scale(1.05)';
+    });
+    hireBtn.addEventListener('mouseout', () => {
+        hireBtn.style.transform = 'scale(1)';
+    });
+    
+    // Mobile menu toggle (would need additional HTML for the mobile menu)
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    mobileMenuBtn.addEventListener('click', () => {
+        // Toggle mobile menu visibility
+        // This would need additional HTML/CSS to implement fully
+        alert('Mobile menu clicked - would toggle menu visibility');
+    });
+});
+
+// Add smooth scrolling for navigation links
+document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Add active class to clicked link
+        //document.querySelector('nav a.active').classList.remove('active');
+        //this.classList.add('active');
+        
+        // You would add scroll to section code here if you had sections
+    });
+});
+
+// Add animation to the hero content when page loads
+/*document.addEventListener('DOMContentLoaded', () => {
+    const heroText = document.querySelector('.hero-text');
+    const heroImage = document.querySelector('.hero-image');
+    
+    setTimeout(() => {
+        heroText.style.opacity = '1';
+        heroText.style.transform = 'translateY(0)';
+    }, 300);
+    
+    setTimeout(() => {
+        heroImage.style.opacity = '1';
+        heroImage.style.transform = 'translateX(0)';
+    }, 600);
+});*/
+
+// Add hover effect to hire button
+/*const hireBtn = document.querySelector('.hire-btn');
+hireBtn.addEventListener('mouseover', () => {
+    hireBtn.style.transform = 'scale(1.05)';
+});
+hireBtn.addEventListener('mouseout', () => {
+    hireBtn.style.transform = 'scale(1)';
+});*/
+    </script>
+</body>
+</html>
